@@ -5,7 +5,7 @@ Prereqs:
 4. Internet connection (since this app gets the APIs over the net)
 
 Installation:
-1. Execute "npm install" in shell at the directory "tamashi". This process may take a while to complete.
+1. Execute "npm install" in shell at the directory "tamashi". This process may take a while to complete, but since there is already a folder "node_modules", this step can be skipped.
 2. Execute "node server.js" in shell to run a development server.
 
 How to use:
