@@ -99,11 +99,11 @@ var render = function () {
 	if (bgReady) {
 		ctx.drawImage(bgImage, 0, 0);
 	}
-	
+
 	if(titleReady){
 		ctx.drawImage(titleImage, 323, 262);
 	}
-	
+
 	if (heroReady) {
 		ctx.drawImage(heroImage, hero.x, hero.y);
 	}
@@ -143,18 +143,18 @@ var then = Date.now();
 reset();
 main();
  */
- 
+
  function init() {
 	//EventDispatcher.initialize(MyClass.prototype);	// initialize event dispatcher. handles events
 	var stage = new createjs.Stage("demoCanvas");	// initialize app
-	
+
 	// enable touch interactions if supported on the current device:
 	createjs.Touch.enable(stage);
-	
+
 	// enabled mouse over / out events
 	stage.enableMouseOver();
 	stage.mouseMoveOutside = true; // keep tracking the mouse even when it leaves the canvas
-	
+
 	createjs.Ticker.setFPS(60);	// set FPS to 60
 	createjs.Ticker.on("tick", stage);	// provides a centralized tick or heartbeat broadcast
 	function tick(event) {
@@ -166,64 +166,64 @@ main();
 	}
 	//Black screen
 	var blackScn = new createjs.Shape(new createjs.Graphics().beginFill("#000").drawRect(0, 0, 1280, 720));
-	
+
 	//Background image
 	var BGbitmap = new createjs.Bitmap("../assets/img/background.png");
 	BGbitmap.x = 0;
 	BGbitmap.y = 0;
 	BGbitmap.alpha = 0;
-	
+
 	//Title Image
 	var titleImg = new createjs.Bitmap("../assets/img/title.png");
 	titleImg.x = 323;
 	titleImg.y = 152;
 	titleImg.alpha = 0;
-	
+
 	//Character Option
 	var titleCharOption = new createjs.Text("Character", "20px Arial", "white");
 	titleCharOption.x = 565;
 	titleCharOption.y = 450;
 	titleCharOption.alpha = 0;
-	
+
 	//Lobby Option
 	var titleLobbyOption = new createjs.Text("Lobby", "20px Arial", "white");
 	titleLobbyOption.x = 565;
 	titleLobbyOption.y = 480;
 	titleLobbyOption.alpha = 0;
-	
+
 	//Options Option
 	var titleOptionOption = new createjs.Text("Options", "20px Arial", "white");
 	titleOptionOption.x = 565;
 	titleOptionOption.y = 510;
 	titleOptionOption.alpha = 0;
-	
+
 	//Credits Option
 	var titleCreditOption = new createjs.Text("Credits", "20px Arial", "white");
 	titleCreditOption.x = 565;
 	titleCreditOption.y = 540;
 	titleCreditOption.alpha = 0;
-	
+
 	//Help Option
 	var titleHelpOption = new createjs.Text("Help", "20px Arial", "white");
 	titleHelpOption.x = 565;
 	titleHelpOption.y = 570;
 	titleHelpOption.alpha = 0;
-	
+
 	//Quit Option
 	var titleQuitOption = new createjs.Text("Quit", "20px Arial", "white");
 	titleQuitOption.x = 565;
 	titleQuitOption.y = 600;
 	titleQuitOption.alpha = 0;
-	
+
 	stage.addChild(blackScn, BGbitmap,
-	titleImg,
-	titleCharOption,
-	titleLobbyOption,
-	titleOptionOption,
-	titleCreditOption,
-	titleHelpOption,
-	titleQuitOption);	// load to app
-	
+  	titleImg,
+  	titleCharOption,
+  	titleLobbyOption,
+  	titleOptionOption,
+  	titleCreditOption,
+  	titleHelpOption,
+  	titleQuitOption);	// load to app
+
 	// sequential ease in loading
 	createjs.Tween.get(BGbitmap).to({ alpha: 1 }, 1000, createjs.Ease.getPowInOut(2))
 		.call(function(){
@@ -247,20 +247,20 @@ main();
 				});
 			});
 		});	//quadratic ease in from alpha 0 to 1 in 1000 ms
-		
+
 	/* var circle = new createjs.Shape();
 	circle.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 50);
 	circle.x = 100;
 	circle.y = 100;
-	stage.addChild(circle); 
-	
+	stage.addChild(circle);
+
 	https://medium.freecodecamp.org/building-a-chat-application-with-mean-stack-637254d1136d
 	https://code.tutsplus.com/tutorials/real-time-chat-with-nodejs-socketio-and-expressjs--net-31708
-	
+
 	http://createjs.com/tutorials/Mouse%20Interaction/
 	https://github.com/CreateJS/EaselJS/wiki/Articles-and-Tutorials
 	*/
-	
+
 	titleCharOption.on("click", function(event){
 		titleToBlack();
 	});
@@ -279,7 +279,7 @@ main();
 	titleQuitOption.on("click", function(event){
 		titleToBlack();
 	});
-	
+
 	function titleToBlack(){
 		//fade all except blackScn
 		createjs.Tween.get(BGbitmap).to({alpha: 0}, 500, createjs.Ease.getPowInOut(2));
