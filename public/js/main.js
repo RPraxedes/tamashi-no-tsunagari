@@ -370,77 +370,216 @@ main();
 	stage.update();
 
 	function CharScreen(){
+		var leftArrowX = 197;
+		var rightArrowX = 435;
+		var itemHeight = 40;
+		var faceMax = 4;	//max number of face assets, should be retrieved from the db
+		var bodyMax = 4;
+		var expMax = 5;
+		
+			// default parts and variables for character
+		var faceNum = 1;	//this should be retrieved from the db
+		var bodyNum = 1;
+		var expNum = 1;
+		var xpos = 150;
+		var ypos = 95;
+		var scale = 0.7;
+		
 		var CharBG = new createjs.Bitmap("../assets/img/char-background.png");
 			CharBG.x = 0;
 			CharBG.y = 0;
 			CharBG.alpha = 0;
 
-			var CharTitleImg = new createjs.Bitmap("../assets/img/char-title.png");
+		var CharTitleImg = new createjs.Bitmap("../assets/img/char-title.png");
 			CharTitleImg.x = 30;
 			CharTitleImg.y =50;
 			CharTitleImg.alpha = 0;
-
+			
 			// Character Menu Container
-			var CharMenu = new createjs.Container();
-			var CharMenuBG = new createjs.Bitmap("../assets/img/char-menu-bg.png");
+		var CharMenu = new createjs.Container();
+		var CharMenuBG = new createjs.Bitmap("../assets/img/char-menu-bg.png");
+			
+			// Item descriptions
+		var HeadItemTxt = new createjs.Text("Name\n\nEye Color\n\nHead\n\nHair Color\n\nBody\n\n\n\nExpression", "20px Arial", "black");
+			HeadItemTxt.x = 50;
+			HeadItemTxt.y = 50;
+			
+			// Item pickers
+		var HeadItemLeft = new createjs.Bitmap("../assets/img/char-arrow-left.png");
+			HeadItemLeft.x = leftArrowX;
+			HeadItemLeft.y = 133;
+		var HeadItem = new createjs.Text("Type "+faceNum, "20px Arial", "black").set({
+				textAlign: "center",
+				x: (rightArrowX - leftArrowX) + 80,
+				y: 133
+			});
+		var HeadItemRight = new createjs.Bitmap("../assets/img/char-arrow-right.png");
+			HeadItemRight.x = rightArrowX;
+			HeadItemRight.y = 133;
+			
+		var BodyItemLeft = new createjs.Bitmap("../assets/img/char-arrow-left.png");
+			BodyItemLeft.x = leftArrowX;
+			BodyItemLeft.y = 133 + itemHeight*2;
+		var BodyItem = new createjs.Text("Type "+faceNum, "20px Arial", "black").set({
+				textAlign: "center",
+				x: (rightArrowX - leftArrowX) + 80,
+				y: 133 + itemHeight*2
+			});
+		var BodyItemRight = new createjs.Bitmap("../assets/img/char-arrow-right.png");
+			BodyItemRight.x = rightArrowX;
+			BodyItemRight.y = 133 + itemHeight*2;
+			
+		var ExpItemLeft = new createjs.Bitmap("../assets/img/char-arrow-left.png");
+			ExpItemLeft.x = leftArrowX;
+			ExpItemLeft.y = 133 + itemHeight*4;
+		var ExpItem = new createjs.Text("Type "+faceNum, "20px Arial", "black").set({
+				textAlign: "center",
+				x: (rightArrowX - leftArrowX) + 80,
+				y: 133 + itemHeight*4
+			});
+		var ExpItemRight = new createjs.Bitmap("../assets/img/char-arrow-right.png");
+			ExpItemRight.x = rightArrowX;
+			ExpItemRight.y = 133 + itemHeight*4;
+		
+		createjs.Tween.get(HeadItemLeft).to({scaleX: 0.37, scaleY: 0.37});
+		createjs.Tween.get(HeadItemRight).to({scaleX: 0.37, scaleY: 0.37});
+		createjs.Tween.get(BodyItemLeft).to({scaleX: 0.37, scaleY: 0.37});
+		createjs.Tween.get(BodyItemRight).to({scaleX: 0.37, scaleY: 0.37});
+		createjs.Tween.get(ExpItemLeft).to({scaleX: 0.37, scaleY: 0.37});
+		createjs.Tween.get(ExpItemRight).to({scaleX: 0.37, scaleY: 0.37});
+
 			CharMenu.x = 650;
 			CharMenu.y = 100;
 			CharMenu.alpha = 0;
-
+			CharMenu.addChild(CharMenuBG, HeadItemTxt, HeadItemLeft, HeadItemRight, BodyItemLeft, BodyItemRight, ExpItemLeft, ExpItemRight, HeadItem, BodyItem, ExpItem);	// add menus to container
 			
-			CharMenu.addChild(CharMenuBG);	// add menus to container
+			//eye color slider (not in CharMenu container)
+		var ecslider = new createjs.Container();	//hair color slider
+		var ecrail = new createjs.Shape(new createjs.Graphics().beginStroke("#555").setStrokeStyle(1).beginFill("#3c3c3c").drawRect(0, 7, 255, 6));
+		var echandle = new createjs.Shape(new createjs.Graphics().beginStroke("#3c3c3c").setStrokeStyle(1).beginFill("#e6e6e6").drawRect(-4, 0, 8, 20));
+			ecslider.addChild(ecrail, echandle);
+			ecslider.alpha = 0;
+			ecslider.x = 848;
+			ecslider.y = 193;
 			
 			//hair color slider (not in CharMenu container)
-			var hcslider = new createjs.Container();	//hair color slider
-			var hcrail = new createjs.Shape(new createjs.Graphics().beginStroke("#555").setStrokeStyle(1).beginFill("#3c3c3c").drawRect(0, 7, 255, 6));
-			var hchandle = new createjs.Shape(new createjs.Graphics().beginStroke("#3c3c3c").setStrokeStyle(1).beginFill("#e6e6e6").drawRect(-4, 0, 8, 20));
+		var hcslider = new createjs.Container();	//hair color slider
+		var hcrail = new createjs.Shape(new createjs.Graphics().beginStroke("#555").setStrokeStyle(1).beginFill("#3c3c3c").drawRect(0, 7, 255, 6));
+		var hchandle = new createjs.Shape(new createjs.Graphics().beginStroke("#3c3c3c").setStrokeStyle(1).beginFill("#e6e6e6").drawRect(-4, 0, 8, 20));
 			hcslider.addChild(hcrail, hchandle);
-				hcslider.alpha = 0;
-				hcslider.x = 848;
-				hcslider.y = 273;
-				
-				
-			var CharItemTxt = new createjs.Text("Name\n\nEyes\n\nHead\n\nHair Color\n\n\nExpression", "20px Arial", "black");
-			CharItemTxt.x = 700;
-			CharItemTxt.y = 150;
-			CharItemTxt.alpha = 0;
+			hcslider.alpha = 0;
+			hcslider.x = 848;
+			hcslider.y = 273;
 			
-			stage.addChild(
-				CharBG,
-				CharTitleImg,
-				CharMenu,
-				CharItemTxt,
-				hcslider
-			);
-
-			createjs.Tween.get(CharBG).to({alpha: 1}, 1000, createjs.Ease.getPowInOut(2));
-			createjs.Tween.get(CharTitleImg).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
-			createjs.Tween.get(CharMenu).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
-			createjs.Tween.get(CharItemTxt).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
-			createjs.Tween.get(hcslider).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+		// character container
+		var CharImg = new createjs.Container();
+			CharImg.alpha = 0;
+			CharImg.x = xpos;
+			CharImg.y = ypos;
 			
-			// default parts
-			previewPart("body", 1);
-			previewPart("face", 1);
-			previewPart("exp", 1);
-	}
+		var headImg = new createjs.Bitmap("../assets/img/char/face_1_"+faceNum+".png");
+		var bodyImg = new createjs.Bitmap("../assets/img/char/body_1_"+bodyNum+".png");
+		var expImg = new createjs.Bitmap("../assets/img/char/exp_1_"+expNum+".png");
+			
+			CharImg.addChild(headImg, bodyImg, expImg);
+			CharImg.setChildIndex(headImg, 1);
+			CharImg.setChildIndex(expImg, 2);
+			CharImg.setChildIndex(bodyImg, 2);
+		createjs.Tween.get(CharImg).to({scaleX: scale, scaleY: scale}).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+		
+		stage.addChild(
+			CharBG,
+			CharTitleImg,
+			CharMenu,
+			ecslider,
+			hcslider,
+			CharImg
+		);
 
-	function previewPart(part, num){
+		createjs.Tween.get(CharBG).to({alpha: 1}, 1000, createjs.Ease.getPowInOut(2));
+		createjs.Tween.get(CharTitleImg).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+		createjs.Tween.get(CharMenu).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+		createjs.Tween.get(HeadItemTxt).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+		createjs.Tween.get(ecslider).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+		createjs.Tween.get(hcslider).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+		createjs.Tween.get(CharImg).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
 		
-		var xpos = 150;
-		var ypos = 95;
-		var scale = 0.7;
+		// Click events
+		HeadItemRight.on("click", function(event){
+			faceNum++;
+			if(faceNum==faceMax+1){	//cycle back
+				faceNum = 1;
+			}
+			CharImg.removeChild(headImg);
+			headImg = new createjs.Bitmap("../assets/img/char/face_1_"+faceNum+".png");
+			HeadItem.text = "Type "+faceNum;	// supposed to retrieve name from db
+			CharImg.addChild(headImg);
+			refreshChildIndices();
+		});
+		HeadItemLeft.on("click", function(event){
+			faceNum--;
+			if(faceNum==0){	//cycle back
+				faceNum = faceMax;
+			}
+			CharImg.removeChild(headImg);
+			headImg = new createjs.Bitmap("../assets/img/char/face_1_"+faceNum+".png");
+			HeadItem.text = "Type "+faceNum;
+			CharImg.addChild(headImg);
+			refreshChildIndices();
+		});
 		
-		var part = new createjs.Bitmap("../assets/img/char/"+part+"_1_"+num+".png");
-		part.x = xpos;
-		part.y = ypos;
-		part.alpha = 0;
+		BodyItemRight.on("click", function(event){
+			bodyNum++;
+			if(bodyNum==bodyMax+1){	//cycle back
+				bodyNum = 1;
+			}
+			CharImg.removeChild(bodyImg);
+			bodyImg = new createjs.Bitmap("../assets/img/char/body_1_"+bodyNum+".png");
+			BodyItem.text = "Type "+bodyNum;
+			CharImg.addChild(bodyImg);
+			refreshChildIndices();
+		});
+		BodyItemLeft.on("click", function(event){
+			bodyNum--;
+			if(bodyNum==0){	//cycle back
+				bodyNum = bodyMax;
+			}
+			CharImg.removeChild(bodyImg);
+			bodyImg = new createjs.Bitmap("../assets/img/char/body_1_"+bodyNum+".png");
+			BodyItem.text = "Type "+bodyNum;
+			CharImg.addChild(bodyImg);
+			refreshChildIndices();
+		});
 		
-		stage.addChild(part);
+		ExpItemRight.on("click", function(event){
+			expNum++;
+			if(expNum==expMax+1){	//cycle back
+				expNum = 1;
+			}
+			CharImg.removeChild(expImg);
+			expImg = new createjs.Bitmap("../assets/img/char/exp_1_"+expNum+".png");
+			ExpItem.text = "Type "+expNum;
+			CharImg.addChild(expImg);
+			refreshChildIndices();
+		});
+		ExpItemLeft.on("click", function(event){
+			expNum--;
+			if(expNum==0){	//cycle back
+				expNum = expMax;
+			}
+			CharImg.removeChild(expImg);
+			expImg = new createjs.Bitmap("../assets/img/char/exp_1_"+expNum+".png");
+			ExpItem.text = "Type "+expNum;
+			CharImg.addChild(expImg);
+			refreshChildIndices();
+		});
 		
-		createjs.Tween.get(part).to({scaleX: scale, scaleY: scale}).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
-		
-		stage.update();
+		function refreshChildIndices(){
+			CharImg.setChildIndex(headImg, 1);
+			CharImg.setChildIndex(expImg, 2);
+			CharImg.setChildIndex(bodyImg, 2);
+			stage.update();
+		}
 	}
  }
  
