@@ -224,8 +224,18 @@ main();
   	titleHelpOption,
   	titleQuitOption);	// load to app
 
+	//simultaneous fade in
+	createjs.Tween.get(BGbitmap).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+	createjs.Tween.get(titleImg).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+	createjs.Tween.get(titleCharOption).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+	createjs.Tween.get(titleLobbyOption).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+	createjs.Tween.get(titleOptionOption).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+	createjs.Tween.get(titleCreditOption).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+	createjs.Tween.get(titleHelpOption).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+	createjs.Tween.get(titleQuitOption).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+	
 	// sequential ease in loading
-	createjs.Tween.get(BGbitmap).to({ alpha: 1 }, 1000, createjs.Ease.getPowInOut(2))
+	/* createjs.Tween.get(BGbitmap).to({ alpha: 1 }, 1000, createjs.Ease.getPowInOut(2))
 		.call(function(){
 			createjs.Tween.get(titleImg).to({ alpha: 1 }, 1000, createjs.Ease.getPowInOut(2))
 			.call(function(){
@@ -247,7 +257,7 @@ main();
 				});
 			});
 		});	//quadratic ease in from alpha 0 to 1 in 1000 ms
-
+ */
 	/* var circle = new createjs.Shape();
 	circle.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 50);
 	circle.x = 100;
@@ -263,6 +273,8 @@ main();
 
 	titleCharOption.on("click", function(event){
 		titleToBlack();
+		CharScreen();
+		
 	});
 	titleLobbyOption.on("click", function(event){
 		titleToBlack();
@@ -294,8 +306,75 @@ main();
 		});
 	}
 	stage.update();
-}
 
+	function CharScreen(){
+		var CharBG = new createjs.Bitmap("../assets/img/char-background.png");
+			CharBG.x = 0;
+			CharBG.y = 0;
+			CharBG.alpha = 0;
+
+			var CharTitleImg = new createjs.Bitmap("../assets/img/char-title.png");
+			CharTitleImg.x = 30;
+			CharTitleImg.y =50;
+			CharTitleImg.alpha = 0;
+
+			var CharMenuBG = new createjs.Bitmap("../assets/img/char-menu-bg.png");
+			CharMenuBG.x = 650;
+			CharMenuBG.y = 100;
+			CharMenuBG.alpha = 0;
+
+			var CharItemTxt = new createjs.Text("Name\n\nEyes\n\nHead\n\n\nExpression", "20px Arial", "black");
+			CharItemTxt.x = 700;
+			CharItemTxt.y = 150;
+			CharItemTxt.alpha = 0;
+			
+			
+			
+			stage.addChild(CharBG, CharTitleImg, CharMenuBG, CharItemTxt);
+
+			createjs.Tween.get(CharBG).to({alpha: 1}, 1000, createjs.Ease.getPowInOut(2));
+			createjs.Tween.get(CharTitleImg).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+			createjs.Tween.get(CharMenuBG).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+			createjs.Tween.get(CharItemTxt).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+			
+			previewPart();
+	}
+
+	function previewPart(){
+		
+		var xpos = 150;
+		var ypos = 95;
+		var scale = 0.7;
+		
+		var bodyNumber = 1;
+		var Body = new createjs.Bitmap("../assets/img/char/body_1_"+bodyNumber+".png");
+		Body.x = xpos;
+		Body.y = ypos;
+		Body.alpha = 0;
+		
+		var headNumber = 1;
+		var Head = new createjs.Bitmap("../assets/img/char/face_1_"+headNumber+".png");
+		Head.x = xpos;
+		Head.y = ypos;
+		Head.alpha = 0;
+		
+		
+		var expNumber = 1;
+		var Expression = new createjs.Bitmap("../assets/img/char/exp_1_"+expNumber+".png");
+		Expression.x = xpos;
+		Expression.y = ypos;
+		Expression.alpha = 0;
+		
+		stage.addChild(Body, Head, Expression);
+		
+		createjs.Tween.get(Body).to({scaleX: scale, scaleY: scale}).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+		createjs.Tween.get(Head).to({scaleX: scale, scaleY: scale}).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+		createjs.Tween.get(Expression).to({scaleX: scale, scaleY: scale}).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+	
+	}
+ }
+ 
 function stop() {
 	createjs.Ticker.removeEventListener("tick", tick);
 }
+
