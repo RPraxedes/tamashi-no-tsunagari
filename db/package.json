@@ -1,0 +1,14 @@
+{
+  "name": "tamashii_db",
+  "version": "1.0.0",
+  "description": "VN chat app db setup",
+  "main": "create_db.js",
+  "scripts": {
+    "test": "\"echo \\\"Error: no test specified\\\" && exit 1\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mysql":"2.9"
+  }
+}
