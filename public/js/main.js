@@ -150,6 +150,8 @@ main();
 
 	// enable touch interactions if supported on the current device:
 	createjs.Touch.enable(stage);
+	// enable mouseover events
+	stage.enableMouseOver(20);
 
 	// enabled mouse over / out events
 	stage.enableMouseOver();
@@ -164,138 +166,424 @@ main();
 			stage.update(event);
 		}
 	}
+	
+	var buttonWidth = 199
+	var buttonHeight = 31;
+	var menuX = 510;
+	var menuY = 450;
+	
 	//Black screen
 	var blackScn = new createjs.Shape(new createjs.Graphics().beginFill("#000").drawRect(0, 0, 1280, 720));
 
 	//Background image
 	var BGbitmap = new createjs.Bitmap("../assets/img/background.png");
-	BGbitmap.x = 0;
-	BGbitmap.y = 0;
-	BGbitmap.alpha = 0;
+		BGbitmap.x = 0;
+		BGbitmap.y = 0;
+		BGbitmap.alpha = 0;
 
 	//Title Image
 	var titleImg = new createjs.Bitmap("../assets/img/title.png");
-	titleImg.x = 323;
-	titleImg.y = 152;
-	titleImg.alpha = 0;
+		titleImg.x = 323;
+		titleImg.y = 152;
+		titleImg.alpha = 0;
 
-	//Character Option
-	var titleCharOption = new createjs.Text("Character", "20px Arial", "white");
-	titleCharOption.x = 565;
-	titleCharOption.y = 450;
-	titleCharOption.alpha = 0;
+	//Menu pointer
+	var mPoint = new createjs.Text("w", "34px Wingdings", "black");
+		mPoint.alpha = 0;
+		mPoint.x = menuX;
+	
+	//Character Button
+	var charButton = new createjs.Container();
+	var charHB = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(0, 0, buttonWidth, buttonHeight));
+	var titleChar = new createjs.Text("Character", "20px Arial", "black");
+	charButton.addChild(charHB, titleChar);
+		charButton.x = menuX;
+		charButton.y = menuY;
+		charButton.alpha = 0;
+		titleChar.x = buttonWidth/4;
+		titleChar.y = buttonHeight/8;
 
 	//Lobby Option
-	var titleLobbyOption = new createjs.Text("Lobby", "20px Arial", "white");
-	titleLobbyOption.x = 565;
-	titleLobbyOption.y = 480;
-	titleLobbyOption.alpha = 0;
+	var lobbyButton = new createjs.Container();
+	var lobbHB = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(0, 0, 199, 31));
+	var titleLobby = new createjs.Text("Lobby", "20px Arial", "black");
+	lobbyButton.addChild(lobbHB, titleLobby);
+		lobbyButton.x = menuX;
+		lobbyButton.y = menuY + buttonHeight;
+		lobbyButton.alpha = 0;
+		titleLobby.x = buttonWidth/4;
+		titleLobby.y = buttonHeight/8;
 
 	//Options Option
-	var titleOptionOption = new createjs.Text("Options", "20px Arial", "white");
-	titleOptionOption.x = 565;
-	titleOptionOption.y = 510;
-	titleOptionOption.alpha = 0;
+	var optionButton = new createjs.Container();
+	var optHB = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(0, 0, 199, 31));
+	var titleOption = new createjs.Text("Options", "20px Arial", "black");
+	optionButton.addChild(optHB, titleOption);
+		optionButton.x = menuX;
+		optionButton.y = menuY + buttonHeight * 2;
+		optionButton.alpha = 0;
+		titleOption.x = buttonWidth/4;
+		titleOption.y = buttonHeight/8;
 
 	//Credits Option
-	var titleCreditOption = new createjs.Text("Credits", "20px Arial", "white");
-	titleCreditOption.x = 565;
-	titleCreditOption.y = 540;
-	titleCreditOption.alpha = 0;
+	var creditButton = new createjs.Container();
+	var credHB = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(0, 0, 199, 31));
+	var titleCredits = new createjs.Text("Credits", "20px Arial", "black");
+	creditButton.addChild(credHB, titleCredits);
+		creditButton.hitArea = credHB;
+		creditButton.x = menuX;
+		creditButton.y = menuY + buttonHeight * 3;
+		creditButton.alpha = 0;
+		titleCredits.x = buttonWidth/4;
+		titleCredits.y = buttonHeight/8;
 
-	//Help Option
-	var titleHelpOption = new createjs.Text("Help", "20px Arial", "white");
-	titleHelpOption.x = 565;
-	titleHelpOption.y = 570;
-	titleHelpOption.alpha = 0;
-
-	//Quit Option
-	var titleQuitOption = new createjs.Text("Quit", "20px Arial", "white");
-	titleQuitOption.x = 565;
-	titleQuitOption.y = 600;
-	titleQuitOption.alpha = 0;
+	//Credits Option
+	var helpButton = new createjs.Container();
+	var helpHB = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(0, 0, 199, 31));
+	var titleHelp = new createjs.Text("Help", "20px Arial", "black");
+	helpButton.addChild(helpHB, titleHelp);
+		helpButton.x = menuX;
+		helpButton.y = menuY + buttonHeight * 4;
+		helpButton.alpha = 0;
+		titleHelp.x = buttonWidth/4;
+		titleHelp.y = buttonHeight/8;
+		
 
 	stage.addChild(blackScn, BGbitmap,
-  	titleImg,
-  	titleCharOption,
-  	titleLobbyOption,
-  	titleOptionOption,
-  	titleCreditOption,
-  	titleHelpOption,
-  	titleQuitOption);	// load to app
+		titleImg,
+		charButton,
+		lobbyButton,
+		optionButton,
+		creditButton,
+		helpButton,
+		mPoint
+	);	// load to app
 
+	//simultaneous fade in
+	createjs.Tween.get(BGbitmap).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+	createjs.Tween.get(titleImg).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+	createjs.Tween.get(charButton).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+	createjs.Tween.get(lobbyButton).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+	createjs.Tween.get(optionButton).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+	createjs.Tween.get(creditButton).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+	createjs.Tween.get(helpButton).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+	
 	// sequential ease in loading
-	createjs.Tween.get(BGbitmap).to({ alpha: 1 }, 1000, createjs.Ease.getPowInOut(2))
+	/* createjs.Tween.get(BGbitmap).to({ alpha: 1 }, 1000, createjs.Ease.getPowInOut(2))
 		.call(function(){
 			createjs.Tween.get(titleImg).to({ alpha: 1 }, 1000, createjs.Ease.getPowInOut(2))
 			.call(function(){
 				createjs.Tween.get(titleCharOption).to({ alpha: 1 }, 500, createjs.Ease.getPowInOut(2))
 				.call(function(){
-					createjs.Tween.get(titleLobbyOption).to({ alpha: 1 }, 500, createjs.Ease.getPowInOut(2))
+					createjs.Tween.get(lobbyButton).to({ alpha: 1 }, 500, createjs.Ease.getPowInOut(2))
 					.call(function(){
-						createjs.Tween.get(titleOptionOption).to({ alpha: 1 }, 500, createjs.Ease.getPowInOut(2))
+						createjs.Tween.get(optionButton).to({ alpha: 1 }, 500, createjs.Ease.getPowInOut(2))
 						.call(function(){
-							createjs.Tween.get(titleCreditOption).to({ alpha: 1 }, 500, createjs.Ease.getPowInOut(2))
+							createjs.Tween.get(creditButton).to({ alpha: 1 }, 500, createjs.Ease.getPowInOut(2))
 							.call(function(){
-								createjs.Tween.get(titleHelpOption).to({ alpha: 1 }, 500, createjs.Ease.getPowInOut(2))
-								.call(function(){
-									createjs.Tween.get(titleQuitOption).to({ alpha: 1 }, 500, createjs.Ease.getPowInOut(2));
-								});
+								createjs.Tween.get(helpButton).to({ alpha: 1 }, 500, createjs.Ease.getPowInOut(2));
 							});
 						});
 					});
 				});
 			});
 		});	//quadratic ease in from alpha 0 to 1 in 1000 ms
-
-	/* var circle = new createjs.Shape();
-	circle.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 50);
-	circle.x = 100;
-	circle.y = 100;
-	stage.addChild(circle);
-
+ */
+	/*
 	https://medium.freecodecamp.org/building-a-chat-application-with-mean-stack-637254d1136d
 	https://code.tutsplus.com/tutorials/real-time-chat-with-nodejs-socketio-and-expressjs--net-31708
 
 	http://createjs.com/tutorials/Mouse%20Interaction/
 	https://github.com/CreateJS/EaselJS/wiki/Articles-and-Tutorials
 	*/
-
-	titleCharOption.on("click", function(event){
+	// mouseover events
+	charButton.on("mouseover", function(event){
+		mPointAppear(this.y);
+	});
+	charButton.on("mouseout", function(event){
+		mPoint.alpha = 0;
+	});
+	
+	lobbyButton.on("mouseover", function(event){
+		mPointAppear(this.y);
+	});
+	lobbyButton.on("mouseout", function(event){
+		mPoint.alpha = 0;
+	});
+	
+	optionButton.on("mouseover", function(event){
+		mPointAppear(this.y);
+	});
+	optionButton.on("mouseout", function(event){
+		mPoint.alpha = 0;
+	});
+	
+	creditButton.on("mouseover", function(event){
+		mPointAppear(this.y);
+	});
+	creditButton.on("mouseout", function(event){
+		mPoint.alpha = 0;
+	});
+	
+	helpButton.on("mouseover", function(event){
+		mPointAppear(this.y);
+	});
+	helpButton.on("mouseout", function(event){
+		mPoint.alpha = 0;
+	});
+	
+	// click events
+	charButton.on("click", function(event){
+		titleToBlack();
+		CharScreen();
+	});
+	lobbyButton.on("click", function(event){
 		titleToBlack();
 	});
-	titleLobbyOption.on("click", function(event){
+	optionButton.on("click", function(event){
 		titleToBlack();
 	});
-	titleOptionOption.on("click", function(event){
+	creditButton.on("click", function(event){
 		titleToBlack();
 	});
-	titleCreditOption.on("click", function(event){
+	helpButton.on("click", function(event){
 		titleToBlack();
 	});
-	titleHelpOption.on("click", function(event){
-		titleToBlack();
-	});
-	titleQuitOption.on("click", function(event){
-		titleToBlack();
-	});
+	
+	function mPointAppear(buttonY){
+		mPoint.y = buttonY - 4;
+		mPoint.alpha = 1;
+	}
 
 	function titleToBlack(){
 		//fade all except blackScn
 		createjs.Tween.get(BGbitmap).to({alpha: 0}, 500, createjs.Ease.getPowInOut(2));
 		createjs.Tween.get(titleImg).to({alpha: 0}, 500, createjs.Ease.getPowInOut(2));
-		createjs.Tween.get(titleCharOption).to({alpha: 0}, 500, createjs.Ease.getPowInOut(2));
-		createjs.Tween.get(titleLobbyOption).to({alpha: 0}, 500, createjs.Ease.getPowInOut(2));
-		createjs.Tween.get(titleOptionOption).to({alpha: 0}, 500, createjs.Ease.getPowInOut(2));
-		createjs.Tween.get(titleCreditOption).to({alpha: 0}, 500, createjs.Ease.getPowInOut(2));
-		createjs.Tween.get(titleHelpOption).to({alpha: 0}, 500, createjs.Ease.getPowInOut(2));
-		createjs.Tween.get(titleQuitOption).to({alpha: 0}, 500, createjs.Ease.getPowInOut(2)).call(function(){
-			stage.removeChild(BGbitmap, titleImg, titleCharOption, titleLobbyOption, titleOptionOption, titleCreditOption, titleHelpOption, titleQuitOption);	//remove from stage after fade
+		createjs.Tween.get(charButton).to({alpha: 0}, 500, createjs.Ease.getPowInOut(2));
+		createjs.Tween.get(lobbyButton).to({alpha: 0}, 500, createjs.Ease.getPowInOut(2));
+		createjs.Tween.get(optionButton).to({alpha: 0}, 500, createjs.Ease.getPowInOut(2));
+		createjs.Tween.get(creditButton).to({alpha: 0}, 500, createjs.Ease.getPowInOut(2));
+		createjs.Tween.get(helpButton).to({alpha: 0}, 500, createjs.Ease.getPowInOut(2)).call(function(){
+			stage.removeChild(BGbitmap, titleImg, charButton, lobbyButton, optionButton, creditButton, helpButton);	//remove from stage after fade
 		});
 	}
 	stage.update();
-}
 
+	function CharScreen(){
+		var leftArrowX = 197;
+		var rightArrowX = 435;
+		var itemHeight = 40;
+		var faceMax = 4;	//max number of face assets, should be retrieved from the db
+		var bodyMax = 4;
+		var expMax = 5;
+		
+			// default parts and variables for character
+		var faceNum = 1;	//this should be retrieved from the db
+		var bodyNum = 1;
+		var expNum = 1;
+		var xpos = 150;
+		var ypos = 95;
+		var scale = 0.7;
+		
+		var CharBG = new createjs.Bitmap("../assets/img/char-background.png");
+			CharBG.x = 0;
+			CharBG.y = 0;
+			CharBG.alpha = 0;
+
+		var CharTitleImg = new createjs.Bitmap("../assets/img/char-title.png");
+			CharTitleImg.x = 30;
+			CharTitleImg.y =50;
+			CharTitleImg.alpha = 0;
+			
+			// Character Menu Container
+		var CharMenu = new createjs.Container();
+		var CharMenuBG = new createjs.Bitmap("../assets/img/char-menu-bg.png");
+			
+			// Item descriptions
+		var HeadItemTxt = new createjs.Text("Name\n\nEye Color\n\nHead\n\nHair Color\n\nBody\n\n\n\nExpression", "20px Arial", "black");
+			HeadItemTxt.x = 50;
+			HeadItemTxt.y = 50;
+			
+			// Item pickers
+		var HeadItemLeft = new createjs.Bitmap("../assets/img/char-arrow-left.png");
+			HeadItemLeft.x = leftArrowX;
+			HeadItemLeft.y = 133;
+		var HeadItem = new createjs.Text("Type "+faceNum, "20px Arial", "black").set({
+				textAlign: "center",
+				x: (rightArrowX - leftArrowX) + 80,
+				y: 133
+			});
+		var HeadItemRight = new createjs.Bitmap("../assets/img/char-arrow-right.png");
+			HeadItemRight.x = rightArrowX;
+			HeadItemRight.y = 133;
+			
+		var BodyItemLeft = new createjs.Bitmap("../assets/img/char-arrow-left.png");
+			BodyItemLeft.x = leftArrowX;
+			BodyItemLeft.y = 133 + itemHeight*2;
+		var BodyItem = new createjs.Text("Type "+faceNum, "20px Arial", "black").set({
+				textAlign: "center",
+				x: (rightArrowX - leftArrowX) + 80,
+				y: 133 + itemHeight*2
+			});
+		var BodyItemRight = new createjs.Bitmap("../assets/img/char-arrow-right.png");
+			BodyItemRight.x = rightArrowX;
+			BodyItemRight.y = 133 + itemHeight*2;
+			
+		var ExpItemLeft = new createjs.Bitmap("../assets/img/char-arrow-left.png");
+			ExpItemLeft.x = leftArrowX;
+			ExpItemLeft.y = 133 + itemHeight*4;
+		var ExpItem = new createjs.Text("Type "+faceNum, "20px Arial", "black").set({
+				textAlign: "center",
+				x: (rightArrowX - leftArrowX) + 80,
+				y: 133 + itemHeight*4
+			});
+		var ExpItemRight = new createjs.Bitmap("../assets/img/char-arrow-right.png");
+			ExpItemRight.x = rightArrowX;
+			ExpItemRight.y = 133 + itemHeight*4;
+		
+		createjs.Tween.get(HeadItemLeft).to({scaleX: 0.37, scaleY: 0.37});
+		createjs.Tween.get(HeadItemRight).to({scaleX: 0.37, scaleY: 0.37});
+		createjs.Tween.get(BodyItemLeft).to({scaleX: 0.37, scaleY: 0.37});
+		createjs.Tween.get(BodyItemRight).to({scaleX: 0.37, scaleY: 0.37});
+		createjs.Tween.get(ExpItemLeft).to({scaleX: 0.37, scaleY: 0.37});
+		createjs.Tween.get(ExpItemRight).to({scaleX: 0.37, scaleY: 0.37});
+
+			CharMenu.x = 650;
+			CharMenu.y = 100;
+			CharMenu.alpha = 0;
+			CharMenu.addChild(CharMenuBG, HeadItemTxt, HeadItemLeft, HeadItemRight, BodyItemLeft, BodyItemRight, ExpItemLeft, ExpItemRight, HeadItem, BodyItem, ExpItem);	// add menus to container
+			
+			//eye color slider (not in CharMenu container)
+		var ecslider = new createjs.Container();	//hair color slider
+		var ecrail = new createjs.Shape(new createjs.Graphics().beginStroke("#555").setStrokeStyle(1).beginFill("#3c3c3c").drawRect(0, 7, 255, 6));
+		var echandle = new createjs.Shape(new createjs.Graphics().beginStroke("#3c3c3c").setStrokeStyle(1).beginFill("#e6e6e6").drawRect(-4, 0, 8, 20));
+			ecslider.addChild(ecrail, echandle);
+			ecslider.alpha = 0;
+			ecslider.x = 848;
+			ecslider.y = 193;
+			
+			//hair color slider (not in CharMenu container)
+		var hcslider = new createjs.Container();	//hair color slider
+		var hcrail = new createjs.Shape(new createjs.Graphics().beginStroke("#555").setStrokeStyle(1).beginFill("#3c3c3c").drawRect(0, 7, 255, 6));
+		var hchandle = new createjs.Shape(new createjs.Graphics().beginStroke("#3c3c3c").setStrokeStyle(1).beginFill("#e6e6e6").drawRect(-4, 0, 8, 20));
+			hcslider.addChild(hcrail, hchandle);
+			hcslider.alpha = 0;
+			hcslider.x = 848;
+			hcslider.y = 273;
+			
+		// character container
+		var CharImg = new createjs.Container();
+			CharImg.alpha = 0;
+			CharImg.x = xpos;
+			CharImg.y = ypos;
+			
+		var headImg = new createjs.Bitmap("../assets/img/char/face_1_"+faceNum+".png");
+		var bodyImg = new createjs.Bitmap("../assets/img/char/body_1_"+bodyNum+".png");
+		var expImg = new createjs.Bitmap("../assets/img/char/exp_1_"+expNum+".png");
+			
+			CharImg.addChild(headImg, bodyImg, expImg);
+			CharImg.setChildIndex(headImg, 1);
+			CharImg.setChildIndex(expImg, 2);
+			CharImg.setChildIndex(bodyImg, 2);
+		createjs.Tween.get(CharImg).to({scaleX: scale, scaleY: scale}).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+		
+		stage.addChild(
+			CharBG,
+			CharTitleImg,
+			CharMenu,
+			ecslider,
+			hcslider,
+			CharImg
+		);
+
+		createjs.Tween.get(CharBG).to({alpha: 1}, 1000, createjs.Ease.getPowInOut(2));
+		createjs.Tween.get(CharTitleImg).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+		createjs.Tween.get(CharMenu).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+		createjs.Tween.get(HeadItemTxt).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+		createjs.Tween.get(ecslider).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+		createjs.Tween.get(hcslider).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+		createjs.Tween.get(CharImg).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+		
+		// Click events
+		HeadItemRight.on("click", function(event){
+			faceNum++;
+			if(faceNum==faceMax+1){	//cycle back
+				faceNum = 1;
+			}
+			CharImg.removeChild(headImg);
+			headImg = new createjs.Bitmap("../assets/img/char/face_1_"+faceNum+".png");
+			HeadItem.text = "Type "+faceNum;	// supposed to retrieve name from db
+			CharImg.addChild(headImg);
+			refreshChildIndices();
+		});
+		HeadItemLeft.on("click", function(event){
+			faceNum--;
+			if(faceNum==0){	//cycle back
+				faceNum = faceMax;
+			}
+			CharImg.removeChild(headImg);
+			headImg = new createjs.Bitmap("../assets/img/char/face_1_"+faceNum+".png");
+			HeadItem.text = "Type "+faceNum;
+			CharImg.addChild(headImg);
+			refreshChildIndices();
+		});
+		
+		BodyItemRight.on("click", function(event){
+			bodyNum++;
+			if(bodyNum==bodyMax+1){	//cycle back
+				bodyNum = 1;
+			}
+			CharImg.removeChild(bodyImg);
+			bodyImg = new createjs.Bitmap("../assets/img/char/body_1_"+bodyNum+".png");
+			BodyItem.text = "Type "+bodyNum;
+			CharImg.addChild(bodyImg);
+			refreshChildIndices();
+		});
+		BodyItemLeft.on("click", function(event){
+			bodyNum--;
+			if(bodyNum==0){	//cycle back
+				bodyNum = bodyMax;
+			}
+			CharImg.removeChild(bodyImg);
+			bodyImg = new createjs.Bitmap("../assets/img/char/body_1_"+bodyNum+".png");
+			BodyItem.text = "Type "+bodyNum;
+			CharImg.addChild(bodyImg);
+			refreshChildIndices();
+		});
+		
+		ExpItemRight.on("click", function(event){
+			expNum++;
+			if(expNum==expMax+1){	//cycle back
+				expNum = 1;
+			}
+			CharImg.removeChild(expImg);
+			expImg = new createjs.Bitmap("../assets/img/char/exp_1_"+expNum+".png");
+			ExpItem.text = "Type "+expNum;
+			CharImg.addChild(expImg);
+			refreshChildIndices();
+		});
+		ExpItemLeft.on("click", function(event){
+			expNum--;
+			if(expNum==0){	//cycle back
+				expNum = expMax;
+			}
+			CharImg.removeChild(expImg);
+			expImg = new createjs.Bitmap("../assets/img/char/exp_1_"+expNum+".png");
+			ExpItem.text = "Type "+expNum;
+			CharImg.addChild(expImg);
+			refreshChildIndices();
+		});
+		
+		function refreshChildIndices(){
+			CharImg.setChildIndex(headImg, 1);
+			CharImg.setChildIndex(expImg, 2);
+			CharImg.setChildIndex(bodyImg, 2);
+			stage.update();
+		}
+	}
+ }
+ 
 function stop() {
 	createjs.Ticker.removeEventListener("tick", tick);
 }
+
