@@ -35,7 +35,7 @@ function init(){
 	var ypos = 95;
 	var scale = 0.7;
 	
-	var ecval = 1;	// eye color value (hue only for now)
+	var ecval = 0;	// eye color value (blue only for now)
 	var hcval = 1;	// hair color value (hue only for now)
 	
 	var CharBG = new createjs.Bitmap("../assets/img/char-background.png");
@@ -47,7 +47,7 @@ function init(){
 		CharTitleImg.x = 30;
 		CharTitleImg.y =50;
 		CharTitleImg.alpha = 0;
-		
+
 	var BackHome = new createjs.Text("Back to Home", "32px Arial", "white");	//link that goes back to home
 		BackHome.x = 960;
 		BackHome.y = 30;
@@ -117,7 +117,7 @@ function init(){
 		ecslider.alpha = 0;
 		ecslider.x = 848;
 		ecslider.y = 193;
-	var ecText = new createjs.Text("Hue: "+ecval, "20px Arial", "black");
+	var ecText = new createjs.Text("Blue: "+ecval, "20px Arial", "black");
 		ecText.x = 281;
 		ecText.y = 0;
 		
@@ -144,11 +144,13 @@ function init(){
 	var headImg = new createjs.Bitmap("../assets/img/char/face_1_"+faceNum+".png");
 	var bodyImg = new createjs.Bitmap("../assets/img/char/body_1_"+bodyNum+".png");
 	var expImg = new createjs.Bitmap("../assets/img/char/exp_1_"+expNum+".png");
+	var EyeColorRect = new createjs.Shape(new createjs.Graphics().beginFill("rgba(0, 0, "+ecval+", 1)").drawRect(192, 200, 100, 35));	//rectangle position is variable for every character
 		
-		CharImg.addChild(headImg, bodyImg, expImg);
+		CharImg.addChild(headImg, bodyImg, expImg, EyeColorRect);
 		CharImg.setChildIndex(headImg, 1);
-		CharImg.setChildIndex(expImg, 2);
+		CharImg.setChildIndex(expImg, 3);
 		CharImg.setChildIndex(bodyImg, 2);
+		CharImg.setChildIndex(EyeColorRect, 2);
 	createjs.Tween.get(CharImg).to({scaleX: scale, scaleY: scale}).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
 	
 	stage.addChild(
@@ -260,12 +262,17 @@ function init(){
 		this.x = event.stageX + this.offset.x;
 		if(this.x<=-4) this.x = 0;
 		if(this.x>=255) this.x = 255;
-		ecval = echandle.x + 1;
-		ecslider.removeChild(ecText);
-		ecText = new createjs.Text("Hue: "+ecval, "20px Arial", "black");
+		ecval = echandle.x;
+			ecslider.removeChild(ecText);
+		ecText = new createjs.Text("Blue: "+ecval, "20px Arial", "black");
 			ecText.x = 281;
 			
 			ecslider.addChild(ecText);
+		
+		CharImg.removeChild(EyeColorRect);
+		EyeColorRect = new createjs.Shape(new createjs.Graphics().beginFill("rgba(0, 0, "+ecval+", 1)").drawRect(192, 200, 100, 35));
+		CharImg.addChild(EyeColorRect);
+		refreshChildIndices();
 		// indicate that the stage should be updated on the next tick:
 		update = true;
 	});
@@ -274,7 +281,8 @@ function init(){
 		if(this.x<=-4) this.x = 0;
 		if(this.x>=255) this.x = 255;
 		hcval = hchandle.x + 1;
-		hcslider.removeChild(hcText);
+		
+			hcslider.removeChild(hcText);
 		hcText = new createjs.Text("Hue: "+hcval, "20px Arial", "black");
 			hcText.x = 281;
 			
@@ -284,8 +292,9 @@ function init(){
 	});
 	function refreshChildIndices(){
 		CharImg.setChildIndex(headImg, 1);
-		CharImg.setChildIndex(expImg, 2);
+		CharImg.setChildIndex(expImg, 3);
 		CharImg.setChildIndex(bodyImg, 2);
+		CharImg.setChildIndex(EyeColorRect, 2);
 		stage.update();
 	}
 }
