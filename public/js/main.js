@@ -60,7 +60,7 @@
 	//Lobby Option
 	var lobbyButton = new createjs.Container();
 	var lobbHB = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(0, 0, 199, 31));
-	var titleLobby = new createjs.Text("Lobby", "20px Arial", "black");
+	var titleLobby = new createjs.Text("Chat", "20px Arial", "black");
 	lobbyButton.addChild(lobbHB, titleLobby);
 		lobbyButton.x = menuX;
 		lobbyButton.y = menuY + buttonHeight;
@@ -194,6 +194,7 @@
 	});
 	lobbyButton.on("click", function(event){
 		titleToBlack();
+		window.location.replace("chat.html");
 	});
 	optionButton.on("click", function(event){
 		titleToBlack();
