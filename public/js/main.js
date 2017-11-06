@@ -193,7 +193,7 @@
 	});
 	lobbyButton.on("click", function(event){
 		titleToBlack();
-		window.location.replace("chatv2.html");
+		window.location.replace("chat.html");
 	});
 	optionButton.on("click", function(event){
 		titleToBlack();
