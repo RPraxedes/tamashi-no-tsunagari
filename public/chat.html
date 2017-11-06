@@ -1,36 +1,42 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Tamashi no Tsunagari: Chat</title>
-  <link rel="stylesheet" href="/css/style-chat.css">
-</head>
-<body>
-<div style="position:absolute;right:0;bottom:0;width:100px;border-right:1px solid black;height:300px;padding:10px;overflow:scroll-y;z-index:5">
-	<b>ROOMS</b>
-	<div id="rooms"></div>
-</div>
-  <div id="chat area">
-  <ul class="pages">
-    <li class="chat page">
-      <div class="chatArea">
-        <ul class="messages"></ul>
-      </div>
-      <input class="inputMessage" placeholder="Type here..."/>
-    </li>
-    <li class="login page">
-      <div class="form">
-        <h3 class="title">Enter your name:</h3>
-        <input class="usernameInput" type="text" maxlength="14" />
-      </div>
-    </li>
-  </ul>
-  </div>
- <link rel="stylesheet" type="text/css" href="./css/style.css">
-    <script src="./js/angular.min.js"></script> <!-- AngularJS -->
-    <script src="./js/socket.io.js"></script>   <!-- SocketIO -->
-    <script src="./js/jquery-1.11.1.js"></script>   <!-- JQuery -->
-    <script src="./js/app.js"></script>
-  <script src="/js/chat.js"></script>
-</body>
+	<head>
+		<meta charset="UTF-8">
+		<title>Tamashi no Tsunagari: Chat</title>
+		<link rel="stylesheet" href="/css/style-chat.css">
+		<link rel="stylesheet" type="text/css" href="./css/style.css">
+	</head>
+	<body onload="init();">
+		<!--Background canvas-->
+		<canvas id="demoCanvas" width="1280" height="720"></canvas>
+		<!--Chat box-->
+		<div id="chat area" style="z-index: 5">
+			<ul class="pages">
+				<li class="chat page" style="position: absolute; top: 400px; height: 320px; width: 1280px">
+					<div class="chatArea">
+						<ul class="messages"></ul>
+					</div>
+						<input class="inputMessage" placeholder="Type here..."/>
+				</li>
+				<li class="login page" style="position: absolute; top: 0px; left: 0px; height: 720px; width: 1280px">
+					<div class="form">
+						<h3 class="title">Enter your name:</h3>
+						<input class="usernameInput" type="text" maxlength="14" />
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div style="position: absolute; left: 1180px; top: 420px; width :100px; border-right: 1px solid black; height: 300px; padding: 10px; overflow: scroll-y; z-index: 5">
+			<b>ROOMS</b>
+			<div id="rooms"></div>
+		</div>
+		<script src="./js/angular.min.js"></script> <!-- AngularJS -->
+		<script src="./js/socket.io.js"></script>   <!-- SocketIO -->
+		<script src="./js/jquery-1.11.1.js"></script>   <!-- JQuery -->
+		<script src="./js/createjs-2015.11.26.min.js"></script>	<!-- CreateJS -->
+		<script src="./js/tweenjs-0.6.2.min.js"></script>		<!-- TweenJS -->
+		<script src="./js/app.js"></script>
+		<script src="/js/chatv2.js"></script>
+		<script src="/js/chat.js"></script>
+	</body>
 </html>
