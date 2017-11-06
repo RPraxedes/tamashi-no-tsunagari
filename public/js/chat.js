@@ -28,9 +28,9 @@
   function addParticipantsMessage (data) {
     var message = '';
     if (data.numUsers === 1) {
-      message += "there's 1 participant";
+      message += "There is 1 participant.";
     } else {
-      message += "there are " + data.numUsers + " participants";
+      message += "There are " + data.numUsers + " participants.";
     }
     log(message);
   }
@@ -236,7 +236,7 @@
   socket.on('login', function (data) {
     connected = true;
     // Display the welcome message
-    var message = "Welcome to Tamashi no Tsunagari: Chat ";
+    var message = "Welcome to Tamashi no Tsunagari: Chat";
     log(message, {
       prepend: true
     });
@@ -289,17 +289,17 @@
 
 
   socket.on('disconnect', function () {
-    log('you have been disconnected');
+    log('You have been disconnected.');
   });
 
   socket.on('reconnect', function () {
-    log('you have been reconnected');
+    log('You have been reconnected.');
     if (username) {
       socket.emit('add user', username);
     }
   });
 
   socket.on('reconnect_error', function () {
-    log('attempt to reconnect has failed');
+    log('Failed to reconnect to the server.');
   });
 
