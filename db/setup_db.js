@@ -35,15 +35,15 @@ sql = "CREATE TABLE bodyfeatures (bodyID INT AUTO_INCREMENT, path VARCHAR(255), 
     console.log("Table 'bodyfeatures' created!");
   });  
  
-//table for costume type (based on body)
+/* //table for costume type (based on body)
 sql = "CREATE TABLE costumefeatures (cosID INT AUTO_INCREMENT, bodyID INT REFERENCES bodyfeatures(bodyID), userID INT REFERENCES users(userID), tstamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(cosID))";
   con.query(sql, function (err, result) {
     if (err) throw err;
     console.log("Table 'costumefeatures' created!");
-  });
+  }); */
 
 //table for characters created
-sql = "CREATE TABLE characters (charID INT AUTO_INCREMENT, userID INT REFERENCES users(userID), faceID INT REFERENCES facefeatures(faceID) , bodyID INT REFERENCES bodyfeatures(bodyID) ,cosID INT REFERENCES costumefeatures(cosID), tstamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(charID))";
+sql = "CREATE TABLE characters (charID INT AUTO_INCREMENT, userID INT REFERENCES users(userID), faceID INT REFERENCES facefeatures(faceID) , bodyID INT REFERENCES bodyfeatures(bodyID) ,"+/* "cosID INT REFERENCES costumefeatures(cosID), "*/+" tstamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(charID))";
   con.query(sql, function (err, result) {
     if (err) throw err;
     console.log("Table 'characters' created!");
