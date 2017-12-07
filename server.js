@@ -14,6 +14,22 @@ var numUsers = 0;
 
 var rooms = ['Main Lobby','Room 1','Room 2','Room 3'];
 
+var data = [];
+
+//connect to mysql
+var mysql = require('mysql');
+
+var con = mysql.createConnection({	//connect to localhost as root
+  host: "localhost",
+  user: "root",
+  password: ""
+});
+
+con.connect(function(err) {
+  if (err) throw err;
+  console.log("Connected to MySQL!");
+});
+
 io.on('connection', function(socket){
   var addedUser = false;
 
@@ -85,6 +101,16 @@ io.on('connection', function(socket){
 	  socket.leave(socket.room);
     }
   });
+  
+		// MySQL messages
+  	//fetch assets (not emotes)
+ /*  socket.on('fetchpart', function(type, num){
+	var sql = "select path from "+type+"features where "+type+"ID = "+num;
+	con.query(sql, function(err, result){
+		if (err) throw err;
+	});
+	//push data to socket
+  }); */
 });
 
 http.listen(80, function(){

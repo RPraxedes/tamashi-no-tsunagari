@@ -121,27 +121,6 @@
 	createjs.Tween.get(creditButton).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
 	createjs.Tween.get(helpButton).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
 	
-	// sequential ease in loading
-	/* createjs.Tween.get(BGbitmap).to({ alpha: 1 }, 1000, createjs.Ease.getPowInOut(2))
-		.call(function(){
-			createjs.Tween.get(titleImg).to({ alpha: 1 }, 1000, createjs.Ease.getPowInOut(2))
-			.call(function(){
-				createjs.Tween.get(titleCharOption).to({ alpha: 1 }, 500, createjs.Ease.getPowInOut(2))
-				.call(function(){
-					createjs.Tween.get(lobbyButton).to({ alpha: 1 }, 500, createjs.Ease.getPowInOut(2))
-					.call(function(){
-						createjs.Tween.get(optionButton).to({ alpha: 1 }, 500, createjs.Ease.getPowInOut(2))
-						.call(function(){
-							createjs.Tween.get(creditButton).to({ alpha: 1 }, 500, createjs.Ease.getPowInOut(2))
-							.call(function(){
-								createjs.Tween.get(helpButton).to({ alpha: 1 }, 500, createjs.Ease.getPowInOut(2));
-							});
-						});
-					});
-				});
-			});
-		});	//quadratic ease in from alpha 0 to 1 in 1000 ms
- */
 	/*
 	https://medium.freecodecamp.org/building-a-chat-application-with-mean-stack-637254d1136d
 	https://code.tutsplus.com/tutorials/real-time-chat-with-nodejs-socketio-and-expressjs--net-31708

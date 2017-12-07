@@ -11,7 +11,7 @@ con.connect(function(err) {
   console.log("Connected!");
   con.query("CREATE DATABASE tamashi", function (err, result) {
     if (err) throw err;
-    console.log("Database created");
+    console.log("Database 'tamashi' created!");
   });
   con.end();
 });
