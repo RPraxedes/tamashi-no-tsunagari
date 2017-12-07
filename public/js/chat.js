@@ -28,9 +28,9 @@
   function addParticipantsMessage (data) {
     var message = '';
     if (data.numUsers === 1) {
-      message += "There is 1 participant.";
+      message += "there's 1 participant";
     } else {
-      message += "There are " + data.numUsers + " participants.";
+      message += "there are " + data.numUsers + " participants";
     }
     log(message);
   }
@@ -72,6 +72,7 @@
       // tell server to execute 'new message' and send along one parameter
       socket.emit('new message', message);
     }
+	changeEmote();
   }
 
   // Log a message
@@ -236,7 +237,7 @@
   socket.on('login', function (data) {
     connected = true;
     // Display the welcome message
-    var message = "Welcome to Tamashi no Tsunagari: Chat";
+    var message = "Welcome to Tamashi no Tsunagari: Chat ";
     log(message, {
       prepend: true
     });
@@ -289,17 +290,96 @@
 
 
   socket.on('disconnect', function () {
-    log('You have been disconnected.');
+    log('you have been disconnected');
   });
 
   socket.on('reconnect', function () {
-    log('You have been reconnected.');
+    log('you have been reconnected');
     if (username) {
       socket.emit('add user', username);
     }
   });
 
   socket.on('reconnect_error', function () {
-    log('Failed to reconnect to the server.');
+    log('attempt to reconnect has failed');
   });
 
+var stage = new createjs.Stage("demoCanvas");	// initialize app
+	
+	// enable touch interactions if supported on the current device:
+	createjs.Touch.enable(stage);
+	// enable mouseover events
+	stage.enableMouseOver(20);
+
+	// enabled mouse over / out events
+	stage.enableMouseOver();
+	stage.mouseMoveOutside = true; // keep tracking the mouse even when it leaves the canvas
+
+	createjs.Ticker.setFPS(60);	// set FPS to 60
+	createjs.Ticker.on("tick", stage);	// provides a centralized tick or heartbeat broadcast
+	function tick(event) {
+		// this set makes it so the stage only re-renders when an event handler indicates a change has happened.
+		if (update) {
+			update = false; // only update once
+			stage.update(event);
+		}
+	}
+	var xpos = 150;
+	var ypos = 95;
+	var scale = 0.7;
+	var expNum=1;
+	var faceNum=1;
+	var bodyNum=1;
+	var expMax = 5;
+	
+	var ChatBG = new createjs.Bitmap("../assets/img/chat-background.png");
+		ChatBG.x = 0;
+		ChatBG.y = 0;
+		ChatBG.alpha = 0;
+	
+	var CharImg = new createjs.Container();
+		CharImg.alpha = 0;
+		CharImg.x = xpos;
+		CharImg.y = ypos;
+	
+	var expImg = new createjs.Bitmap("../assets/img/char/exp_1_"+expNum+".png");
+	var headImg = new createjs.Bitmap("../assets/img/char/face_1_"+faceNum+".png");
+	var bodyImg = new createjs.Bitmap("../assets/img/char/body_1_"+bodyNum+".png");
+		CharImg.addChild(headImg, bodyImg, expImg);
+		CharImg.setChildIndex(headImg, 1);
+		CharImg.setChildIndex(expImg, 3);
+		CharImg.setChildIndex(bodyImg, 2);
+	
+	var chatSpace = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(0, 400, 1280, 320));
+		chatSpace.alpha = 0.5;
+	
+	stage.addChild(
+		ChatBG,
+		CharImg,
+		chatSpace
+	);
+	
+	function changeEmote(){
+		expNum++;
+		if(expNum==expMax+1){	//cycle back
+			expNum = 1;
+		}
+		CharImg.removeChild(expImg);
+		expImg = new createjs.Bitmap("../assets/img/char/exp_1_"+expNum+".png");
+		CharImg.addChild(expImg);
+		refreshChildIndices();
+	}
+	
+	function refreshChildIndices(){
+		CharImg.setChildIndex(headImg, 1);
+		CharImg.setChildIndex(expImg, 3);
+		CharImg.setChildIndex(bodyImg, 2);
+		stage.update();
+	}
+	
+function init(){
+	createjs.Tween.get(ChatBG).to({alpha: 1}, 1000, createjs.Ease.getPowInOut(2));
+	createjs.Tween.get(CharImg).to({scaleX: scale, scaleY: scale}).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+	
+	stage.update();
+}

@@ -45,7 +45,7 @@ io.on('connection', function(socket){
   // when the client emits 'add user', this listens and executes
   socket.on('add user', function (username) {
     if (addedUser) return;
-	socket.room = 'lobby';
+	socket.room = 'Main Lobby';
     // we store the username in the socket session for this client
     socket.username = username;
     ++numUsers;
@@ -58,7 +58,7 @@ io.on('connection', function(socket){
       username: socket.username,
       numUsers: numUsers
     });
-	socket.emit('updaterooms', rooms, 'lobby');
+	socket.emit('updaterooms', rooms, 'Main Lobby');
   });
 
   // when the client emits 'typing', we broadcast it to others
@@ -113,6 +113,6 @@ io.on('connection', function(socket){
   }); */
 });
 
-http.listen(3000, function(){
-  console.log('listening on *:3000');
+http.listen(80, function(){
+  console.log('listening on *:80');
 });

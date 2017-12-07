@@ -59,7 +59,7 @@
 	//Lobby Option
 	var lobbyButton = new createjs.Container();
 	var lobbHB = new createjs.Shape(new createjs.Graphics().beginFill("#FFF").drawRect(0, 0, 199, 31));
-	var titleLobby = new createjs.Text("Chatv2", "20px Arial", "black");
+	var titleLobby = new createjs.Text("Chat", "20px Arial", "black");
 	lobbyButton.addChild(lobbHB, titleLobby);
 		lobbyButton.x = menuX;
 		lobbyButton.y = menuY + buttonHeight;
@@ -85,7 +85,7 @@
 	creditButton.addChild(credHB, titleCredits);
 		creditButton.hitArea = credHB;
 		creditButton.x = menuX;
-		creditButton.y = menuY + buttonHeight * 3;
+		creditButton.y = menuY + buttonHeight * 2;
 		creditButton.alpha = 0;
 		titleCredits.x = buttonWidth/4;
 		titleCredits.y = buttonHeight/8;
@@ -106,9 +106,9 @@
 		titleImg,
 		charButton,
 		lobbyButton,
-		optionButton,
+		//optionButton,
 		creditButton,
-		helpButton,
+		//helpButton,
 		mPoint
 	);	// load to app
 
@@ -172,13 +172,22 @@
 	});
 	lobbyButton.on("click", function(event){
 		titleToBlack();
-		window.location.replace("chatv2.html");
+		window.location.replace("chat.html");
 	});
 	optionButton.on("click", function(event){
 		titleToBlack();
 	});
 	creditButton.on("click", function(event){
 		titleToBlack();
+		var maika = new createjs.Bitmap("../assets/img/maika.png");
+			maika.alpha = 0;
+		var credTxt = new createjs.Text("Thanks for testing!", "36px Arial", "black");
+			credTxt.x = (1280-300)/2;
+			credTxt.y = 720*2/3;
+			credTxt.alpha = 0;
+		stage.addChild(maika, credTxt);
+		createjs.Tween.get(maika).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
+		createjs.Tween.get(credTxt).to({alpha: 1}, 500, createjs.Ease.getPowInOut(2));
 	});
 	helpButton.on("click", function(event){
 		titleToBlack();
